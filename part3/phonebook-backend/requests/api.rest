@@ -1,0 +1,4 @@
+get https://optimal-pipe-production.up.railway.app/api/info
+
+###
+get https://optimal-pipe-production.up.railway.app/api/persons
