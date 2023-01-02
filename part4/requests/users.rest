@@ -1,0 +1,23 @@
+###
+get http://localhost:3001/api/users
+
+###
+post http://localhost:3001/api/users
+content-type: application/json
+
+{
+    "username": "hpotter3",
+    "name": "harry potter",
+    "password": "randompassword"
+}
+
+###
+put http://localhost:3001/api/blogs/63addb154b97b85a4094f45f
+content-type: application/json
+
+{
+    "title": "Adventures of haha Forever",
+    "author": "harry poooter",
+    "url": "https://example.com",
+    "likes": 5
+}

@@ -1,0 +1,33 @@
+###
+post http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "root",
+    "password": "sekret"
+}
+
+###
+post http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "root",
+    "password": "badpassword"
+}
+###
+post http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "abcd",
+    "password": "asdf"
+}
+###
+post http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "mluukkai",
+    "password": "salainen"
+}
