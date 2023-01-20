@@ -1,0 +1,60 @@
+###
+get http://localhost:3001/api/blogs
+###
+get http://localhost:3001/api/blogs/63bc59a7a41e9f893cee2f29
+
+###
+delete http://localhost:3001/api/blogs/63b2fd5780e8a92af7b315c1
+
+###
+delete http://localhost:3001/api/blogs/63b326a8527de91736e2b5ba
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYzYjJmZDU5OWZjYmQxNTlhMTI5NGZkNiIsImlhdCI6MTY3MjY4MDgxNn0.hCNwfcd4fUfpQ24fS8QCUB2lOvRZJ7lwjmVZ5vTaHZ8
+###
+delete http://localhost:3001/api/blogs/63b326a8527de91736e2b5ba
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiY2QiLCJpZCI6IjYzYjJmZDU5OWZjYmQxNTlhMTI5NGZkOCIsImlhdCI6MTY3MjY4MTg2MH0.RSDsMERg5pFoMWcZb_8sbLgtzuG17h_hFGmwAQ5Ut7w
+
+###
+post http://localhost:3001/api/blogs
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiY2QiLCJpZCI6IjYzYjMzOWM2N2U3OTBmMzZkYWQ4YzQ0NSIsImlhdCI6MTY3Mjk2MTIxNX0.09CGRdBw1oJ2Ag46jv9y86UZ63hdhzqPXHw1BSsoV-A
+
+{
+    "title": "Adventures of ewww Forever",
+    "author": "harry poooter",
+    "url": "https://example.com",
+    "likes": 5
+}
+###
+post http://localhost:3001/api/blogs
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiY2QiLCJpZCI6IjYzYjJmZDU5OWZjYmQxNTlhMTI5NGZkOCIsImlhdCI6MTY3MjY4MTg2MH0.RSDsMERg5pFoMWcZb_8sbLgtzuG17h_hFGmwAQ5Ut7w
+
+{
+    "title": "Adventures of ewww Forever",
+    "author": "harry poooter",
+    "url": "https://example.com",
+    "likes": 5
+}
+###
+post http://localhost:3001/api/blogs
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiY2QiLCJpZCI6IjYzYmM1NTZhYWMwZWQ1MDg4ZTMzOTE1ZiIsImlhdCI6MTY3MzI4ODA2M30.vae0Fg7IiT5JJoEqaKxQJHKjc4kNk0GWpekVuLHmLmo
+
+{
+    "title": "Adventures of ewww Forever",
+    "author": "harry poooter",
+    "url": "https://example.com",
+    "likes": 5
+}
+
+###
+put http://localhost:3001/api/blogs/63b743747f30ac46d47a1607
+content-type: application/json
+authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFiY2QiLCJpZCI6IjYzYjMzOWM2N2U3OTBmMzZkYWQ4YzQ0NSIsImlhdCI6MTY3Mjk2MTIxNX0.09CGRdBw1oJ2Ag46jv9y86UZ63hdhzqPXHw1BSsoV-A
+
+{
+    "title": "Adventures of puter2 Forever",
+    "author": "harry poooter",
+    "url": "https://example.com",
+    "likes": 5
+}
