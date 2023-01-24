@@ -1,30 +1,40 @@
-import { useEffect, useRef, useState } from 'react';
+import { Container } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Blog from './components/Blog';
+import BlogInfo from './components/BlogInfo';
+import BlogList from './components/BlogList';
 import LoginForm from './components/LoginForm';
-import NewBlogForm from './components/NewBlogForm';
 import Notification from './components/Notification';
-import Togglable from './components/Togglable';
+import UserBlogInfo from './components/UserBlogInfo';
+import UserList from './components/UserList';
 
 import blogService from './services/blogs';
 import loginService from './services/login';
 import userService from './services/user';
 
+import { setBlogs } from './reducers/blogsReducer';
+import { removeMessage, setMessage } from './reducers/notificationReducer';
+import { setUser } from './reducers/userReducer';
+
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
-  const blogFormRef = useRef();
+  const user = useSelector(({ blogs, notification, user }) => user);
+  const dispatch = useDispatch();
+
   const byLikes = (b1, b2) => (b2.likes > b1.likes ? 1 : -1);
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs.sort(byLikes)));
+    blogService
+      .getAll()
+      .then((blogs) => dispatch(setBlogs(blogs.sort(byLikes))));
   }, []);
 
   useEffect(() => {
     const userFromStorage = userService.getUser();
     if (userFromStorage) {
-      setUser(userFromStorage);
+      dispatch(setUser(userFromStorage));
     }
   }, []);
 
@@ -35,7 +45,7 @@ const App = () => {
         password,
       })
       .then((user) => {
-        setUser(user);
+        dispatch(setUser(user));
         userService.setUser(user);
         notify(`${user.name} logged in!`);
       })
@@ -44,104 +54,93 @@ const App = () => {
       });
   };
 
+  const notify = (message, type = 'info') => {
+    dispatch(setMessage({ message, type }));
+    setTimeout(() => {
+      dispatch(removeMessage());
+    }, 5000);
+  };
+
   const logout = () => {
-    setUser(null);
+    dispatch(setUser(null));
     userService.clearUser();
     notify('good bye!');
-  };
-
-  const createBlog = async (blog) => {
-    blogService
-      .create(blog)
-      .then((createdBlog) => {
-        notify(
-          `a new blog '${createdBlog.title}' by ${createdBlog.author} added`
-        );
-        setBlogs(blogs.concat(createdBlog));
-        blogFormRef.current.toggleVisibility();
-      })
-      .catch((error) => {
-        notify('creating a blog failed: ' + error.response.data.error, 'alert');
-      });
-  };
-
-  const removeBlog = (id) => {
-    const toRemove = blogs.find((b) => b.id === id);
-
-    const ok = window.confirm(
-      `remove '${toRemove.title}' by ${toRemove.author}?`
-    );
-
-    if (!ok) {
-      return;
-    }
-
-    blogService.remove(id).then(() => {
-      const updatedBlogs = blogs.filter((b) => b.id !== id).sort(byLikes);
-      setBlogs(updatedBlogs);
-    });
-  };
-
-  const likeBlog = async (id) => {
-    const toLike = blogs.find((b) => b.id === id);
-    const liked = {
-      ...toLike,
-      likes: (toLike.likes || 0) + 1,
-      user: toLike.user.id,
-    };
-
-    blogService.update(liked.id, liked).then((updatedBlog) => {
-      notify(`you liked '${updatedBlog.title}' by ${updatedBlog.author}`);
-      const updatedBlogs = blogs
-        .map((b) => (b.id === id ? updatedBlog : b))
-        .sort(byLikes);
-      setBlogs(updatedBlogs);
-    });
-  };
-
-  const notify = (message, type = 'info') => {
-    setNotification({ message, type });
-    setTimeout(() => {
-      setNotification(null);
-    }, 5000);
   };
 
   if (user === null) {
     return (
       <>
-        <Notification notification={notification} />
+        <Notification />
         <LoginForm onLogin={login} />
       </>
     );
   }
-
-  return (
-    <div>
-      <h2>blogs</h2>
-
-      <Notification notification={notification} />
-
+  const CurrentUserInfo = () => {
+    return (
       <div>
+        <Link to={'/blog'}>blog</Link> <Link to={'/user'}>user</Link>{' '}
         {user.name} logged in
         <button onClick={logout}>logout</button>
       </div>
-
-      <Togglable buttonLabel="new note" ref={blogFormRef}>
-        <NewBlogForm onCreate={createBlog} />
-      </Togglable>
-
-      <div id="blogs">
-        {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            likeBlog={likeBlog}
-            removeBlog={removeBlog}
-            user={user}
-          />
-        ))}
+    );
+  };
+  return (
+    <Container>
+      <div>
+        <Router>
+          <h2>blogs</h2>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <Notification />
+                  <CurrentUserInfo />
+                  <BlogList />
+                </div>
+              }
+            />
+            <Route
+              path="/blog"
+              element={
+                <div>
+                  <Notification />
+                  <CurrentUserInfo />
+                  <BlogList />
+                </div>
+              }
+            />
+            <Route
+              path="/user"
+              element={
+                <div>
+                  <CurrentUserInfo />
+                  <UserList />
+                </div>
+              }
+            />
+            <Route
+              path="/user/:id"
+              element={
+                <div>
+                  <CurrentUserInfo />
+                  <UserBlogInfo />
+                </div>
+              }
+            />
+            <Route
+              path="/blog/:id"
+              element={
+                <div>
+                  <CurrentUserInfo />
+                  <BlogInfo />
+                </div>
+              }
+            />
+          </Routes>
+        </Router>
       </div>
-    </div>
+    </Container>
   );
 };
 

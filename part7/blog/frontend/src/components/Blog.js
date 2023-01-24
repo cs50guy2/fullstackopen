@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const BlogDetails = ({ blog, visible, likeBlog, removeBlog, own }) => {
   if (!visible) return null;
@@ -33,10 +34,11 @@ const Blog = ({ blog, likeBlog, removeBlog, user }) => {
 
   return (
     <div style={style} className="blog">
-      {blog.title} {blog.author}
+      <Link to={`/blog/${blog.id}`}>{blog.title}</Link>
+      {/* {` ${blog.author}`}
       <button onClick={() => setVisible(!visible)}>
         {visible ? 'hide' : 'view'}
-      </button>
+      </button> */}
       <BlogDetails
         blog={blog}
         visible={visible}
