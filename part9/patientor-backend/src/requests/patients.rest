@@ -1,0 +1,67 @@
+###
+get http://localhost:3001/api/patients
+###
+get http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667
+###
+post http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+    "id": "d811e46d-70b3-4d90-b090-4535c7cf8fb2",
+    "date": "2015-01-02",
+    "type": "Hospital"
+
+}
+###
+post http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+    {
+    "date": "2018-10-05",
+    "specialist": "MD House",
+    "type": "HealthCheck",
+    "description": "Yearly control visit. Due to high cholesterol levels recommended to eat more vegetables.",
+    "healthCheckRating": 1,
+    "diagnosisCodes": [
+          "Z57.1",
+          "Z74.3",
+          "M51.2"
+    ]
+    }
+###
+post http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+    "date": "2019-08-05",
+    "type": "OccupationalHealthcare",
+    "specialist": "MD House",
+    "employerName": "HyPD",
+    "diagnosisCodes": [
+        "Z57.1",
+        "Z74.3",
+        "M51.2"
+    ],
+    "description": "Patient mistakenly found himself in a nuclear plant waste site without protection gear. Very minor radiation poisoning. ",
+    "sickLeave": {
+        "startDate": "2019-08-05",
+        "endDate": "2019-08-28"
+    }
+}
+###
+post http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+    "date": "2015-01-02",
+    "type": "Hospital",
+    "specialist": "MD House",
+    "diagnosisCodes": [
+    "S62.5"
+    ],
+    "description": "Healing time appr. 2 weeks. patient doesn't remember how he got the injury.",
+    "discharge": {
+    "date": "2015-01-16",
+    "criteria": "Thumb has healed."
+    }
+}
